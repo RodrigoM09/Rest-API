@@ -43,4 +43,8 @@ public class Question {
                 ", correctAnswer='" + correctAnswer + '\'' +
                 '}';
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

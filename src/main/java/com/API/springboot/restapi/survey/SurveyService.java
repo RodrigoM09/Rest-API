@@ -2,9 +2,13 @@ package com.API.springboot.restapi.survey;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 @Service
 public class SurveyService {
@@ -30,5 +34,49 @@ public class SurveyService {
 
         surveys.add(survey);
 
+    }
+
+    public List<Survey> retrieveAllSurveys() {
+        return surveys;
+    }
+
+    public Survey retrieveSurveyById(String surveyId) {
+
+        Predicate<? super Survey> predicate = survey -> survey.getId().equalsIgnoreCase(surveyId);
+
+        Optional<Survey> optionalSurvey = surveys.stream().filter(predicate).findFirst();
+
+        if (optionalSurvey.isEmpty()) return null;
+
+        return optionalSurvey.get();
+    }
+
+    public List<Question> retrieveAllSurveyQuestions(String surveyID) {
+        Survey survey = retrieveSurveyById(surveyID);
+        if (survey==null) return null;
+        return survey.getQuestions();
+    }
+
+    public Question retrieveSpecificSurveyQuestion(String surveyID, String questionId) {
+      List<Question> surveyQuestions =  retrieveAllSurveyQuestions(surveyID);
+      if (surveyQuestions == null) return null;
+
+      Optional<Question> optionalQuestion = surveyQuestions.stream().filter(q -> q.getId().equalsIgnoreCase(questionId)).findFirst();
+      if (optionalQuestion.isEmpty()) return null;
+
+      return optionalQuestion.get();
+    }
+
+    public String addNewSurveyQuestion(String surveyID, Question question) {
+        List<Question> questions = retrieveAllSurveyQuestions(surveyID);
+        question.setId(generateRandomId());
+        questions.add(question);
+        return question.getId();
+    }
+
+    private static String generateRandomId() {
+        SecureRandom secureRandom = new SecureRandom();
+        String randomId = new BigInteger(32, secureRandom).toString();
+        return randomId;
     }
 }
