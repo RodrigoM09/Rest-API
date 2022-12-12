@@ -57,4 +57,14 @@ public class SurveyResource {
         surveyService.deleteSurveyQuestion(surveyID, questionId);
         return ResponseEntity.noContent().build();
     }
+
+    @RequestMapping(value = "/surveys/{surveyID}/questions/{questionId}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> updateSurveyQuestion(@PathVariable String surveyID, @PathVariable String questionId, @RequestBody Question question){
+
+            surveyService.updateSurveyServiceQuestion(surveyID, questionId, question);
+
+        return ResponseEntity.noContent().build();
+    }
+
+
 }
