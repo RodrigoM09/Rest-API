@@ -52,7 +52,7 @@ public class SurveyResource {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{questionId}").buildAndExpand(questionId).toUri();
         return ResponseEntity.created(location).build();
     }
-    @RequestMapping("/surveys/{surveyID}/questions/{questionId}")
+    @RequestMapping(value = "/surveys/{surveyID}/questions/{questionId}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> deleteSurveyQuestion(@PathVariable String surveyID, @PathVariable String questionId){
         surveyService.deleteSurveyQuestion(surveyID, questionId);
         return ResponseEntity.noContent().build();
