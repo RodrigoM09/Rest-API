@@ -16,7 +16,6 @@ public class UserDetails {
 
     private String role;
 
-
     public UserDetails(String name, String role) {
         this.name = name;
         this.role = role;

@@ -12,19 +12,20 @@ public class UserDetailsCommandLineRunner implements CommandLineRunner {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private UserDetailsRepository userDao;
+    private UserDetailsRepository repository;
 
-    public UserDetailsCommandLineRunner(UserDetailsRepository userDao) {
-        this.userDao = userDao;
+    public UserDetailsCommandLineRunner(UserDetailsRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        userDao.save(new UserDetails("Rodrigo","Admin"));
-        userDao.save(new UserDetails("Marquez","Admin"));
-        userDao.save(new UserDetails("David","Admin"));
+        repository.save(new UserDetails("Rodrigo","Admin"));
+        repository.save(new UserDetails("Marquez","Admin"));
+        repository.save(new UserDetails("David","User"));
 
-        List<UserDetails> users = userDao.findAll();
+//        List<UserDetails> users = userDao.findAll();
+        List<UserDetails> users = repository.findByRole("Admin");
 
         users.forEach(user -> logger.info(user.toString()));
 
